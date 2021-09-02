@@ -1,0 +1,79 @@
+
+<style>
+  #client{
+    margin: 30px 20px;
+  }
+  table, th, td{
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  th, td{
+    padding: 20px 10px;
+  }
+</style>
+
+{%extends 'base.html'%}
+
+{%block content%}
+<div id=client>
+{%if not query %}
+<p>No Results</p>
+{%else%}
+<form action="" method="post">
+  {%csrf_token%}
+<label for="sort">Sort By: </label>
+<select name="sort" id="sort">
+  <option value="-education">Education</option>
+  <option value="position">Position</option>
+  <option value="residency">Residency</option>
+  <option value="industry">Industry</option>
+</select> &emsp;
+<button type="submit" class="btn btn-primary btn-sm">Sort</button>
+<p>Sorted by: {{sorted}}</p>
+</form>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Phone_Number</th>
+    <th>Nationality</th>
+    <th>Residency</th>
+    <th>Status</th>
+    <th>Industry</th>
+    <th>Position</th>
+    <th>Education</th>
+    <th>Experience</th>
+    <th>Resume</th>
+    <th>Delete Client</th>
+  </tr>
+{%for q in query%}
+<tr>
+<td>{{q}}</td>
+<td>{{q.email}}</td>
+<td>{{q.phone_number}}</td>
+<td>{{q.country}}</td>
+<td>{{q.residency}}</td>
+<td>{{q.status}}</td>
+<td>{{q.industry.ind}}</td>
+<td>{{q.position.pos}}</td>
+{%if q.education == 'A'%}
+<td>High School</td>
+{%elif q.education == 'B'%}
+<td>Associates</td>
+{%elif q.education == 'C'%}
+<td>Bachelors</td>
+{%elif q.education == 'D'%}
+<td>Masters</td>
+{%else%}
+<td>Doctorate</td>
+{%endif%}
+<td>{{q.experience}}</td>
+<td><a href="https://neyha.pythonanywhere.com/{{q.resume.url}}" style="color: rgb(0, 0, 100); text-decoration: underline;">Resume</a target="_blank" ></td>
+<td><a href="{%url 'delete' q.id%}" style="color: rgb(0, 0, 100); text-decoration: underline;">Delete {{q}}</a></td>
+</tr>
+{%endfor%}
+</table>
+
+{%endif%}
+</div>
+{%endblock%}

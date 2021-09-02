@@ -1,0 +1,32 @@
+{%extends 'base.html'%}
+
+{%block content%}
+
+<style>
+  #myForm{
+    margin: 70px 60vh;
+    padding: 30px 50px;
+    border-style: solid;
+    border-color: rgb(237, 236, 236);
+    display: inline-block;
+    
+  }
+</style>
+
+<div id='myForm'>
+<form action="" method="POST" >
+  {%csrf_token%}
+  <label for="ind">New Industry</label> <br>
+  <input type="text" name="ind" id="ind"> <br><br><br>
+  <button type="submit" class="btn btn-primary mb-2">Submit</button>
+</form>
+
+<br><br><br>
+<form action="" method="POST" >
+  {%csrf_token%}
+  <label for="pos">New Position</label><br>
+  <input type="text" name="pos" id="pos"> <br><br><br>
+  <button type="submit" class="btn btn-primary mb-2">Submit</button>
+</form>
+</div>
+{%endblock%}

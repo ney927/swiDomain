@@ -1,0 +1,27 @@
+{%extends 'base.html'%}
+
+
+
+
+{%block content%}
+<style>
+  #myForm{
+    margin: 70px 60vh;
+    padding: 30px 50px;
+    border-style: solid;
+    border-color: rgb(237, 236, 236);
+    display: inline-block;
+
+  }
+</style>
+
+  <form method="POST" id='myForm' enctype="multipart/form-data">
+    <h2>Add Client</h2> <br><br>
+    {%csrf_token%}
+    {{form.as_p}}
+    <br>
+    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+  </form>
+  {{choices}}
+
+{%endblock%}

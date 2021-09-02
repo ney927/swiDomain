@@ -1,0 +1,49 @@
+
+<style>
+  #client{
+    margin: 100px;
+  }
+
+  #myForm{
+    margin: 70px 60vh;
+    padding: 30px 50px;
+    border-style: solid;
+    border-color: rgb(237, 236, 236);
+    display: inline-block;
+    
+  }
+</style>
+
+{%extends 'base.html'%}
+
+{%block content%}
+<form action="" method='POST' id=myForm>
+  {%csrf_token%}
+  <label for="searchIND">Industry</label>
+  <select name="searchIND" id="searchIND" value='Any'>
+    <option value="Any">Any</option>
+    {%for ind in industries%}
+    <option value="{{ind}}">{{ind}}</option>
+    {%endfor%}
+  </select><br><br>
+
+<label for="searchPOS">Position</label>
+<select name="searchPOS" id="searchPOS" value='Any'>
+  <option value="Any">Any</option>
+  {%for pos in positions%}
+  <option value="{{pos}}">{{pos}}</option>
+  {%endfor%}
+</select><br><br>
+
+<label for="searchRES">Residency</label>
+<select name="searchRES" id="searchRESR" value='Any'>
+  <option value="Any">Any</option>
+  <option value="CAN">Canada</option>
+  <option value="Other">Other</option>
+</select><br><br>
+
+<label for="searchEXP">Experience</label>
+<input type="number" name='searchEXP'value=0><br><br>
+<button type="submit" class="btn btn-primary mb-2">Search</button>
+</form>
+{%endblock%}
