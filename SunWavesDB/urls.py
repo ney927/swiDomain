@@ -26,7 +26,7 @@ urlpatterns = [
     path('search/', search_view, name='search'),
     path('add-options/', add_options_view, name='add-options'),
     path('results/<str:ind>/<str:pos>/<str:res>/<int:exp>/<str:sort>/', search_results_view, name='results'),
-    path('delete/<int:id>/', delete_view, name='delete')
+    path('delete/<int:id>/', delete_view, name='delete'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

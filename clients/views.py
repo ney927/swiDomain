@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from clients.forms import clientForm, addIndustry, addPosition
 from clients.models import client, industryChoices, positionChoices
+from django.http import HttpResponse
+import xlwt
 # Create your views here.
 def create_client_view(request):
   form = clientForm()
@@ -33,6 +35,7 @@ def search_view(request):
   }
   return render(request, 'searchClients.html', context)
 
+
 def search_results_view(request, ind, pos, res, exp, sort):
   query = client.objects.all()
   if ind != 'Any':
@@ -48,8 +51,29 @@ def search_results_view(request, ind, pos, res, exp, sort):
   else:
     query = query.order_by('-experience')
   if request.method == 'POST':
-    sort = request.POST.get('sort')
-    return redirect('results', ind, pos, res, exp, sort)
+    if 'excel' not in request.POST:
+      sort = request.POST.get('sort')
+      return redirect('results', ind, pos, res, exp, sort)
+    else:
+      print('excel created')
+      response = HttpResponse(content_type='application/ms-excel')
+      response['Content-Disposition'] = 'attachment; filename="Client_Emails.xls"'
+      wb = xlwt.Workbook(encoding='utf-8')
+      ws = wb.add_sheet(f'{ind}, {pos}, {res}, {exp}')
+      # Sheet header, first row
+      row_num = 0
+      font_style = xlwt.XFStyle()
+      font_style.font.bold = True
+      ws.write(row_num, 0, label='Email Address')
+      # Sheet body, remaining rows
+      font_style = xlwt.XFStyle()
+      for q in query:
+        row_num += 1
+        ws.write(row_num, 0, label=q.email)
+      wb.save(response)
+      return response
+
+
   context = {
     'query': query,
     'sorted': sort
@@ -80,3 +104,4 @@ def delete_view(request, id):
     'cl': cl
   }
   return render(request, 'deleteClient.html', context)
+
